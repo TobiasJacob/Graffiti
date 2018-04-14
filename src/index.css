@@ -41,6 +41,6 @@ html {
   width: 50%;
 }
 
-.inputDiv {
+.inputForm > .inputDiv {
   display: flex;
 }

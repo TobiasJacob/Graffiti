@@ -7,7 +7,7 @@ class App extends Component {
     super(props);
     this.state = { messages: [] }; // <- set up react state
   }
-  componentWillMount(){
+  componentWillMount() {
     /* Create reference to messages in Firebase Database */
     let messagesRef = fire.database().ref('messages').orderByChild('channel').limitToLast(100).equalTo(this.props.match.params.channel);
     messagesRef.on('child_added', snapshot => {
@@ -16,9 +16,9 @@ class App extends Component {
       this.setState({ messages: this.state.messages.concat(message) });
     })
     messagesRef.once('value', snapshot => {
-      this.refs.end.scrollIntoView({ behavior: "instant", block: "end"});
+      this.refs.end.scrollIntoView({ behavior: "instant", block: "end" });
     })
-  
+
   }
   handleImageLoaded() {
     this.scrollToBottomIfNeeded();
@@ -27,27 +27,26 @@ class App extends Component {
     this.scrollToBottomIfNeeded();
   }
   scrollToBottomIfNeeded() {
-    if(this.refs.end.getBoundingClientRect().y < window.innerHeight + 200)
-    {
-      this.refs.end.scrollIntoView({ behavior: "smooth", block: "end"});
+    if (this.refs.end.getBoundingClientRect().y < window.innerHeight + 200) {
+      this.refs.end.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }
-  addMessage(e){
+  addMessage(e) {
     e.preventDefault(); // <- prevent form submit from reloading the page
     /* Send the message to Firebase */
-    fire.database().ref('messages').push( {text: this.inputEl.value, channel: this.props.match.params.channel} );
+    fire.database().ref('messages').push({ text: this.inputEl.value, channel: this.props.match.params.channel, user: this.props.match.params.user });
     this.inputEl.value = ''; // <- clear the input
   }
-  handleUploadStart = () => this.setState({isUploading: true, progress: 0});
-  handleProgress = (progress) => this.setState({progress});
+  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
+  handleProgress = (progress) => this.setState({ progress });
   handleUploadError = (error) => {
-    this.setState({isUploading: false});
+    this.setState({ isUploading: false });
     console.error(error);
   }
   handleUploadSuccess = (filename) => {
     //this.setState({avatar: filename, progress: 100, isUploading: false});
     fire.storage().ref('images').child(filename).getDownloadURL().then(imageURL => {
-      fire.database().ref('messages').push( {imageURL, channel: this.props.match.params.channel} );
+      fire.database().ref('messages').push({ imageURL, channel: this.props.match.params.channel, user: this.props.match.params.user });
     });
   };
   render() {
@@ -56,41 +55,24 @@ class App extends Component {
         <nav className="navbar is-fixed-top" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item" href="https://bulma.io">
-              <img src="https://logo//" alt="Logo" width="112" height="28" />
+              <img src="/logo203.png" alt="Logo" />
             </a>
 
             <span className="navbar-item">{this.props.match.params.channel}</span>
             <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false">
-              
+
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
           </div>
         </nav>
-        <section className="container">
-          { 
-            this.state.messages.map( message => {
-              if(message.message.text)
-                return <div className="usermessage" key={message.id}>{message.message.text}</div>
-              else
-                return <div className="usermessage" key={message.id}>
-                <img onLoad={this.handleImageLoaded.bind(this)} src={message.message.imageURL} alt="Message"/>
-                </div>
-          } )
-          }
-        </section>
-        <div className="placeholder" ></div>
-        <div
-             ref="end">
-        </div>
-
-          <form className="inputForm" onSubmit={this.addMessage.bind(this)}>
+        <form className="inputForm" onSubmit={this.addMessage.bind(this)}>
           <div className="inputDiv">
-            <input className="input" type="text" ref={ el => this.inputEl = el }/>
-            <input className="button" type="submit"/>
+            <input className="input" type="text" ref={el => this.inputEl = el} />
+            <input className="button" type="submit" />
 
             <label className="button">
-            +
+              +
             <FileUploader
                 accept="image/*"
                 hidden
@@ -105,6 +87,27 @@ class App extends Component {
             </label>
           </div>
         </form>
+        <section className="container">
+          {
+            this.state.messages.map(message => (
+              <div className="usermessage" key={message.id}>
+              {
+                message.message.user && <p className="has-text-weight-bold">{message.message.user}</p>
+              }
+                {
+                  message.message.text ?
+                    <p>{message.message.text}</p> :
+                    <img onLoad={this.handleImageLoaded.bind(this)} src={message.message.imageURL} alt="Message" />
+                }
+              </div>
+            ))
+          }
+        </section>
+        <div className="placeholder" ></div>
+        <div
+          ref="end">
+        </div>
+
       </div>
     );
   }
