@@ -66,6 +66,26 @@ class App extends Component {
             </a>
           </div>
         </nav>
+        <section className="container">
+          {
+            this.state.messages.map(message => (
+              <div className="usermessage" key={message.id}>
+              {
+                message.message.user && <p className="has-text-weight-bold">{message.message.user}</p>
+              }
+                {
+                  message.message.text ?
+                    <p>{message.message.text}</p> :
+                    <img onLoad={this.handleImageLoaded.bind(this)} src={message.message.imageURL} alt="Message" />
+                }
+              </div>
+            ))
+          }
+        </section>
+        <div className="placeholder" ></div>
+        <div
+          ref="end">
+        </div>
         <form className="inputForm" onSubmit={this.addMessage.bind(this)}>
           <div className="inputDiv">
             <input className="input" type="text" ref={el => this.inputEl = el} />
@@ -87,26 +107,6 @@ class App extends Component {
             </label>
           </div>
         </form>
-        <section className="container">
-          {
-            this.state.messages.map(message => (
-              <div className="usermessage" key={message.id}>
-              {
-                message.message.user && <p className="has-text-weight-bold">{message.message.user}</p>
-              }
-                {
-                  message.message.text ?
-                    <p>{message.message.text}</p> :
-                    <img onLoad={this.handleImageLoaded.bind(this)} src={message.message.imageURL} alt="Message" />
-                }
-              </div>
-            ))
-          }
-        </section>
-        <div className="placeholder" ></div>
-        <div
-          ref="end">
-        </div>
 
       </div>
     );
