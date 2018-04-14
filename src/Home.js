@@ -54,7 +54,7 @@ class App extends Component {
             <div>
                 <nav className="navbar is-fixed-top" aria-label="main navigation">
                     <div className="navbar-brand">
-                        <a className="navbar-item" href="https://bulma.io">
+                        <a className="navbar-item" href="https://graffiti-85757.firebaseapp.com/">
                             <img src="/logo203.png" alt="Logo" ref='logo'/>
                         </a>
                     </div>
