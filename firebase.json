@@ -11,7 +11,7 @@
     ],
     "rewrites": [
       {
-        "source": "/channels/*",
+        "source": "**",
         "destination": "/index.html"
       }
     ]

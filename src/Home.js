@@ -4,12 +4,13 @@ import QRCode from 'qrcode';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = { messages: [] }; // <- set up react state
+        this.state = { name: "myChannel" }; // <- set up react state
     }
     componentDidMount() {
         this.generateQR();
     }
     generateQR() {
+
         var dummyCanvas = document.createElement("canvas");        //Just for drawing first
         let link = 'https://graffiti-85757.firebaseapp.com/channel/' + encodeURI(this.refs.input.value);
         this.refs.channelLink.href = link;
@@ -44,11 +45,9 @@ class App extends Component {
         x.document.write(iframe);
         x.document.close();
     }
-    handleImageLoaded() {
-        this.scrollToBottomIfNeeded();
-    }
-    componentDidUpdate() {
-        this.scrollToBottomIfNeeded();
+    handleInputChange(event) {
+        this.setState({name: event.target.value});
+        this.generateQR();
     }
     render() {
         return (
@@ -57,13 +56,6 @@ class App extends Component {
                     <div className="navbar-brand">
                         <a className="navbar-item" href="https://bulma.io">
                             <img src="/logo203.png" alt="Logo" ref='logo'/>
-                        </a>
-
-                        {/* <h1 className="navbar-item">Graffit - Talk what you want to talk about</h1> */}
-                        <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false">
-
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
                         </a>
                     </div>
                 </nav>
@@ -77,7 +69,7 @@ class App extends Component {
                         <form className="form">
                             <label className="label">Create your channel</label>
                             <div className="control field">
-                                <input className="input" onInput={this.generateQR.bind(this)} type="text" placeholder="Name" ref="input" />
+                                <input className="input" onChange={this.handleInputChange.bind(this)} type="text" placeholder="Name" ref="input" value={this.state.name} />
                             </div>
                         </form>
                         <p>

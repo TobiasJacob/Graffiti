@@ -57,13 +57,7 @@ class App extends Component {
             <a className="navbar-item" href="https://bulma.io">
               <img src="/logo203.png" alt="Logo" />
             </a>
-
             <span className="navbar-item">{this.props.match.params.channel}</span>
-            <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false">
-
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
           </div>
         </nav>
         <section className="container">
