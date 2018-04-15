@@ -61,13 +61,13 @@ class App extends Component {
                 </nav>
                 <article className="container">
                     <section className="section">
-                        <h1 className="title">Talk what you want to talk about</h1>
-                        <p className="subtitle">Grafit makes it possible</p>
-                        <p>In Grafit you can talk to anybody. Create your own Channel.</p>
+                        <h1 className="title">Talk about whatever</h1>
+                        <p className="subtitle">Create a public conversation</p>
+                        <p>Stick your individual QR Code anywhere to invite strangers into your channel.</p>
                     </section>
                     <section className="section">
                         <form className="form">
-                            <label className="label">Create your channel</label>
+                            <label className="label">Print your QR Code</label>
                             <div className="control field">
                                 <input className="input" onChange={this.handleInputChange.bind(this)} type="text" placeholder="Name" ref="input" value={this.state.name} />
                             </div>

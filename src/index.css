@@ -22,7 +22,7 @@ html {
   border: 1px solid #CCCCCC;
   border-radius: 0.4em;
 }
-.usermessage > img {
+.usermessage  .msgImg {
   max-height: 12em;
   margin: 0;
 }
